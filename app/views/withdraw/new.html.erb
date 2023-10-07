@@ -1,0 +1,20 @@
+<!-- app/views/deposits/new.html.erb -->
+<div id ="bet-container">
+         <div class="card" style="width: 100%">
+            <div class="card-header">
+               <p class="card-title">Withdraw To Mpesa</h5p>
+            </div>
+              <div class="card-body">
+                <%= form_for @withdraw, url: withdraws_path do |f| %>
+                  <div class="form-group">
+                        <!-- Pre-fill the phone_number field with the user's phone number -->
+                  
+                    <%= f.label :amount, 'Withdraw Amount',required: true %>
+                    <%= f.number_field :amount, class: 'form-control', step: '1', required: true%>
+                  </div>
+                  <%= f.submit 'Withdraw', class: 'btn btn-primary' %>
+                <% end %>
+    </div>
+  </div>
+  </div>
+</div>

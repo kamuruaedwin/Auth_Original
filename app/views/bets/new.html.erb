@@ -1,0 +1,52 @@
+<!-- app/views/bets/new.html.erb -->
+<%if user_signed_in?%>
+<div id ="container">
+  <div class="card" style="width: 17rem;" >
+    <div class="card-header">
+      <h5 >Place Bet</h5>
+    </div>
+    <div class="card-body">
+          <%= form_with(model: @bet, url: bets_path, method: "post") do |form| %>
+
+          <% if form.object.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(form.object.errors.count, "error") %> prohibited this bet from being saved:</h2>
+              <ul>
+                <% form.object.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <!-- hidden authenticity token -->
+          <% form_authenticity_token %>
+
+
+           <div class="form-group">
+              <label for="stake_amount">Amount You Want To Bet</label>
+              <input type="number" class="form-control" id="stake_amount" placeholder="Enter stake amount">
+            </div>
+            <!-- <div class="form-group">
+                <label for="stake">Stake Amount:</label>
+                <input type="number" class="form-control" name="bet[stake_amount]" id="stake" placeholder="Enter stake amount"> -->
+            <!-- </div> -->
+           <div class="form-group">
+            <label for="predicted_y_value">Your Predicted Odd</label>
+            <input type="number" class="form-control" id="predicted_y_value" placeholder="Enter your prediction"> 
+            </div>
+            <!-- <div class="form-group">
+            <label for="prediction">Predicted Value of y:</label>
+            <input type="number" class="form-control" name="bet[predicted_y_value]" id="prediction" placeholder="Enter your prediction"> -->
+          </div>
+<!-- linkinhg a bet to user -->
+           
+            
+          
+
+          <div class="actions">
+            <%= form.submit "Place Bet" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+   <% end %>
