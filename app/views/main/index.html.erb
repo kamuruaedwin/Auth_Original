@@ -2,32 +2,13 @@
 <%= flash[:error] %>
 <body>
     <div id="container">
-        <div class="container-fluid">
-            <!-- <div class="row justify-content-center"> -->
-                <div id="animation-container" >
-                    <!-- <div class="card" style="width: 100%; height: 100%; background-color: orange;"> -->
-                        <!-- <div class="card-body">
-                            Canvas for the graph with reduced size --> 
-                            <canvas id="chart-container"></canvas>
-                            <div id="timer-display"></div>
-                            <div id="value-display">Current Value of y: 1</div>
-                            <!-- Container for last value buttons -->
-                            <div id="button-container">
-                                <!-- Buttons for last eight values of y -->
-                            </div>
-                            <!-- Display the hash value on button click -->
-                            <div id="hash-display" class="hash-value">Hash: <span id="hash-value"></span></div>
-                        <!-- </div> -->
-                    <!-- </div> -->
-                <!-- </div> -->
-            </div>         
-
+              
+   <%= render 'tables/chart'%>
    <%= render 'home/betform'%>
    <%= render 'home/chatform'%>
    <%= render 'tables/burst_table'%>
-   <%= render 'tables/your_bets'%>   
-
-    <!-- Table container outside the canvas -->
+   <%= render 'tables/your_bets'%>
+    
   <!-- Add an event listener for when the page is loaded -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -144,7 +125,7 @@
       updateTable(); // Update the table with y values and hashes
 
       // Start the countdown timer
-      let countdown = 2;
+      let countdown = 5;
       timerDisplay.textContent = countdown;
       countdownInterval = setInterval(() => {
         countdown--;
