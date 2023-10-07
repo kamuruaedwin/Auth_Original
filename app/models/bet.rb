@@ -1,5 +1,4 @@
 # app/models/bet.rb
-
 class Bet < ApplicationRecord
   belongs_to :user
 
@@ -9,7 +8,7 @@ class Bet < ApplicationRecord
   validate :stake_amount_less_than_or_equal_to_balance
 
   def stake_amount_less_than_or_equal_to_balance
-    if stake_amount && stake_amount > user.balance
+    if @bet.stake_amount > user.balance
       errors.add(:stake_amount, "cannot be greater than your balance")
     end
   end

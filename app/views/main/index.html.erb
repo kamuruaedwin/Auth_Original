@@ -5,9 +5,9 @@
         <div class="container-fluid">
             <!-- <div class="row justify-content-center"> -->
                 <div id="animation-container" >
-                    <div class="card" style="width: 100%; background-color: darkslategray;">
-                        <div class="card-body">
-                            <!-- Canvas for the graph with reduced size -->
+                    <!-- <div class="card" style="width: 100%; height: 100%; background-color: orange;"> -->
+                        <!-- <div class="card-body">
+                            Canvas for the graph with reduced size --> 
                             <canvas id="chart-container"></canvas>
                             <div id="timer-display"></div>
                             <div id="value-display">Current Value of y: 1</div>
@@ -17,240 +17,208 @@
                             </div>
                             <!-- Display the hash value on button click -->
                             <div id="hash-display" class="hash-value">Hash: <span id="hash-value"></span></div>
-                        </div>
-                    </div>
+                        <!-- </div> -->
+                    <!-- </div> -->
                 <!-- </div> -->
-            </div>
-        
-  
+            </div>         
 
    <%= render 'home/betform'%>
    <%= render 'home/chatform'%>
-
-    
-    <!-- Burst container -->
-    <div class="card" style="width: 100%;">
-        <div class="card-header">
-            <p class="card-title">Bets</p>
-        </div>
-        <div class="card-body">
-            <div id="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Burst</th>
-                            <th>Hash</th>
-                            <th>Game Id</th>
-                            <th>Stake</th>
-                            <th>Cash Out</th>
-                            <th>Profit</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <!-- Table rows will be added dynamically here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div class="card" style="width: 100%;">
-        <div class="card-header">
-            <p class="card-title">Your Bets</p>
-        </div>
-        <div class="card-body">
-            <div id="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Game Id</th>
-                            <th>Stake</th>
-                            <th>Burst</th>
-                            <th>Profit</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <!-- Table rows will be added dynamically here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    </div>
+   <%= render 'tables/burst_table'%>
+   <%= render 'tables/your_bets'%>   
 
     <!-- Table container outside the canvas -->
-  <script>
-        const canvas = document.getElementById('chart-container');
-        const context = canvas.getContext('2d');
-        const animationDuration = 30000; // Animation duration in milliseconds
-        let animationStartTime;
-        let animationIsRunning = true; // Initially, the animation is running
-        let randomStopTime = Math.random() * 15000; // Random stopping point (approximately 30 seconds)
-        let countdownInterval;
-        let clearAnimationTimeout;
-        const maxLastValues = 28; // Maximum number of last values to display
-        const lastYValues = []; // Store the last y values
-        const hashToValueMap = {}; // Store hash-to-value mapping
+  <!-- Add an event listener for when the page is loaded -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const canvas = document.getElementById('chart-container');
+    const context = canvas.getContext('2d');
+    const animationDuration = 30000; // Animation duration in milliseconds
+    let animationStartTime;
+    let animationIsRunning = true; // Initially, the animation is running
+    let randomStopTime = Math.random() * 17000; // Random stopping point (approximately 30 seconds)
+    let countdownInterval;
+    let clearAnimationTimeout;
+    const maxLastValues = 28; // Maximum number of last values to display
+    const lastYValues = []; // Store the last y values
+    const hashToValueMap = {}; // Store hash-to-value mapping
+    // Prevent click events on the canvas
+    canvas.addEventListener('click', (e) => {
+      e.preventDefault();
+    });
 
-        const chart = new Chart(context, {
-            type: 'line',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Animation Progress',
-                    data: [],
-                    borderColor: 'orange',
-                    borderWidth: 2,
-                }],
+
+    const chart = new Chart(context, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Animation Progress',
+          data: [],
+          borderColor: 'orange',
+          borderWidth: 2,
+          legend: {
+                display: false, // Hide this dataset from the legend
+            }
+        }],
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'linear',
+            position: 'bottom',
+            title: {
+              display: true,
+              text: 'Time',
             },
-            options: {
-                scales: {
-                    x: {
-                        type: 'linear',
-                        position: 'bottom',
-                        title: {
-                            display: true,
-                            text: 'Time',
-                        },
-                    },
-                    y: {
-                        type: 'linear',
-                        position: 'left',
-                        title: {
-                            display: true,
-                            text: 'Value',
-                        },
-                        beginAtZero: false, // Do not start y-axis from zero
-                    },
-                },
+          },
+          y: {
+            type: 'linear',
+            position: 'left',
+            title: {
+              display: true,
+              text: 'Value',
             },
+            beginAtZero: false, // Do not start y-axis from zero
+          },
+        },
+      },
+    });
+
+    const valueDisplay = document.getElementById('value-display');
+    const timerDisplay = document.getElementById('timer-display');
+    const buttonContainer = document.getElementById('button-container');
+    const hashDisplay = document.getElementById('hash-display');
+    const hashValueDisplay = document.getElementById('hash-value');
+    const tableBody = document.getElementById('table-body'); // Table body element
+
+    
+    function generateHash() {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let hash = '';
+      const hashLength = 32; // 128 bits / 4 bits per character = 32 characters
+      for (let i = 0; i < hashLength; i++) {
+        hash += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      return hash;
+    }
+
+    function drawGraph() {
+      const currentTime = Date.now();
+      if (!animationStartTime) {
+        animationStartTime = currentTime;
+      }
+      const elapsedTime = currentTime - animationStartTime;
+
+      const progress = Math.min(1, elapsedTime / animationDuration);
+      const value = 1 + progress * (elapsedTime / 1000); // Start at 1 and change based on time
+
+      chart.data.labels.push((elapsedTime / 1000).toFixed(2));
+      chart.data.datasets[0].data.push(value);
+      chart.update();
+
+      // Display the current value of y at the center of the canvas
+      valueDisplay.textContent = `Stake* ${value.toFixed(2)}`;
+
+      // Check if the random stopping point has been reached
+      if (elapsedTime >= randomStopTime || (progress >= 1 && animationIsRunning)) {
+        stopAnimation(value); // Pass the current value of y to stopAnimation
+      } else if (animationIsRunning) {
+        requestAnimationFrame(drawGraph);
+      }
+    }
+
+    function stopAnimation(value) {
+      animationIsRunning = false;
+      // Print the current value of y on top of the canvas
+      const hash = generateHash();
+      lastYValues.push({ hash, value });
+      if (lastYValues.length > maxLastValues) {
+        // Remove the oldest value and its mapping
+        const removedValue = lastYValues.shift();
+        delete hashToValueMap[removedValue.hash];
+      }
+      // Add the mapping of hash to value
+      hashToValueMap[hash] = value;
+      displayLastValues();
+      updateTable(); // Update the table with y values and hashes
+
+      // Start the countdown timer
+      let countdown = 2;
+      timerDisplay.textContent = countdown;
+      countdownInterval = setInterval(() => {
+        countdown--;
+        timerDisplay.textContent = countdown;
+        if (countdown === 0) {
+          clearInterval(countdownInterval);
+          // Restart the animation immediately after countdown reaches 0
+          randomStopTime = Math.random() * 23000; // Randomize the stopping point
+          startAnimation(); // Restart the animation
+          timerDisplay.textContent = '';
+        }
+      }, 1000);
+
+      // Clear the animation after 3 seconds
+      clearAnimationTimeout = setTimeout(() => {
+        clearAnimation();
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(countdownInterval);
+      clearTimeout(restartTimeout);
+      clearTimeout(clearAnimationTimeout); // Clear the timeout for clearing animation
+      timerDisplay.textContent = '';
+    }
+
+    function clearAnimation() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      chart.data.labels = [];
+      chart.data.datasets[0].data = [];
+      chart.update();
+    }
+
+    function displayLastValues() {
+      buttonContainer.innerHTML = ''; // Clear the existing buttons
+      for (const [hash, value] of Object.entries(hashToValueMap)) {
+        const button = document.createElement('button');
+        button.className = 'btn btn-secondary last-value-button';
+        button.textContent = `${value.toFixed(2)}`; // Display the value instead of "Show Hash"
+        button.addEventListener('click', () => {
+          // Display the hash value when the button is clicked
+          hashValueDisplay.textContent = hash;
+          hashDisplay.style.display = 'block';
         });
+        buttonContainer.appendChild(button);
+      }
+    }
 
-        const valueDisplay = document.getElementById('value-display');
-        const timerDisplay = document.getElementById('timer-display');
-        const buttonContainer = document.getElementById('button-container');
-        const hashDisplay = document.getElementById('hash-display');
-        const hashValueDisplay = document.getElementById('hash-value');
-        const tableBody = document.getElementById('table-body'); // Table body element
+    function updateTable() {
+      // Clear the existing table rows
+      tableBody.innerHTML = '';
+      // Populate the table with y values and their associated hashes
+      for (const [hash, value] of Object.entries(hashToValueMap)) {
+        const row = document.createElement('tr');
+        const yValueCell = document.createElement('td');
+        yValueCell.textContent = value.toFixed(2);
+        const hashCell = document.createElement('td');
+        hashCell.textContent = hash;
+        row.appendChild(yValueCell);
+        row.appendChild(hashCell);
+        tableBody.appendChild(row);
+      }
+    }
 
-        function generateHash() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let hash = '';
-            const hashLength = 32; // 128 bits / 4 bits per character = 32 characters
-            for (let i = 0; i < hashLength; i++) {
-                hash += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-            return hash;
-        }
+    function startAnimation() {
+      animationStartTime = null;
+      animationIsRunning = true;
+      drawGraph();
+    }
 
-        function drawGraph() {
-            const currentTime = Date.now();
-            if (!animationStartTime) {
-                animationStartTime = currentTime;
-            }
-            const elapsedTime = currentTime - animationStartTime;
-
-            const progress = Math.min(1, elapsedTime / animationDuration);
-            const value = 1 + progress * (elapsedTime / 1000); // Start at 1 and change based on time
-
-            chart.data.labels.push((elapsedTime / 1000).toFixed(2));
-            chart.data.datasets[0].data.push(value);
-            chart.update();
-
-            // Display the current value of y at the center of the canvas
-            valueDisplay.textContent = `Stake* ${value.toFixed(2)}`;
-
-            // Check if the random stopping point has been reached
-            if (elapsedTime >= randomStopTime || (progress >= 1 && animationIsRunning)) {
-                stopAnimation(value); // Pass the current value of y to stopAnimation
-            } else if (animationIsRunning) {
-                requestAnimationFrame(drawGraph);
-            }
-        }
-
-        function stopAnimation(value) {
-            animationIsRunning = false;
-            // Print the current value of y on top of the canvas
-            const hash = generateHash();
-            lastYValues.push({ hash, value });
-            if (lastYValues.length > maxLastValues) {
-                // Remove the oldest value and its mapping
-                const removedValue = lastYValues.shift();
-                delete hashToValueMap[removedValue.hash];
-            }
-            // Add the mapping of hash to value
-            hashToValueMap[hash] = value;
-            displayLastValues();
-            updateTable(); // Update the table with y values and hashes
-
-            // Start the countdown timer
-            let countdown = 2;
-            timerDisplay.textContent = countdown;
-            countdownInterval = setInterval(() => {
-                countdown--;
-                timerDisplay.textContent = countdown;
-                if (countdown === 0) {
-                    clearInterval(countdownInterval);
-                    // Restart the animation immediately after countdown reaches 0
-                    startAnimation();
-                    timerDisplay.textContent = '';
-                }
-            }, 1000);
-
-            // Clear the animation after 3 seconds
-            clearAnimationTimeout = setTimeout(() => {
-                clearAnimation();
-            }, 1000);
-        }
-
-        function resetTimer() {
-            clearInterval(countdownInterval);
-            clearTimeout(restartTimeout);
-            clearTimeout(clearAnimationTimeout); // Clear the timeout for clearing animation
-            timerDisplay.textContent = '';
-        }
-
-        function clearAnimation() {
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            chart.data.labels = [];
-            chart.data.datasets[0].data = [];
-            chart.update();
-        }
-
-        function displayLastValues() {
-            buttonContainer.innerHTML = ''; // Clear the existing buttons
-            for (const [hash, value] of Object.entries(hashToValueMap)) {
-                const button = document.createElement('button');
-                button.className = 'btn btn-secondary last-value-button';
-                button.textContent = `${value.toFixed(2)}`; // Display the value instead of "Show Hash"
-                button.addEventListener('click', () => {
-                    // Display the hash value when the button is clicked
-                    hashValueDisplay.textContent = hash;
-                    hashDisplay.style.display = 'block';
-                });
-                buttonContainer.appendChild(button);
-            }
-        }
-
-        function updateTable() {
-            // Clear the existing table rows
-            tableBody.innerHTML = '';
-            // Populate the table with y values and their associated hashes
-            for (const [hash, value] of Object.entries(hashToValueMap)) {
-                const row = document.createElement('tr');
-                const yValueCell = document.createElement('td');
-                yValueCell.textContent = value.toFixed(2);
-                const hashCell = document.createElement('td');
-                hashCell.textContent = hash;
-                row.appendChild(yValueCell);
-                row.appendChild(hashCell);
-                tableBody.appendChild(row);
-            }
-        }
-
-        drawGraph(); // Start the animation initially
-    </script>
-
+    // Call the startAnimation function to begin the animation
+    startAnimation();
+  });
+</script>
     <!-- Include Bootstrap JS (optional) -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

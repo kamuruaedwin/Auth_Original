@@ -9,29 +9,6 @@ Rails.application.routes.draw do
 #   # root "posts#index"
 
 
-# resource :session
-# resource :registration
-# resource :password_reset
-# resource :password
-
-# get 'bets/new'
-# resources :bets, only: [:new, :create]
-
-# get 'deposits/new'
-# get 'deposits/create'
-# resources :deposits, only: [:new, :create]
-
-# get 'withdraw/new'
-# resources :withdraws, only: [:new, :create]
-
-# resources :messages, only: [:index, :create]
-
-
-# root "main#index" #defines root path
-
-# end
-
-
 resources :sessions
 resources :registrations
 resources :password_resets
@@ -40,7 +17,7 @@ resources :passwords
 delete 'logout' => 'sessions#destroy', as: :logout
 
 
-get 'bets/new'
+# get 'bets/new'
 resources :bets, only: [:new, :create]
 
 get 'deposits/new'

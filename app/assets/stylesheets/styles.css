@@ -3,6 +3,7 @@
 
             background-color: orange;
             align-content: right;
+            display: flex;
         }
 
         /* Style the PesaFast label */
@@ -11,6 +12,9 @@
             font-size:35 ;
             font-style: ;
             font: 28;
+        }
+        .nabar-item{
+            flex:1;
         }
        
         /* Style the container */
@@ -27,7 +31,8 @@
         /*Styling Animation-Container*/
         #animation-container {
             background-color: darkslategray;
-            width: 53%; 
+            width: 53%;
+            min-height: 350px; 
             float: left;
             border: 1px solid #ccc;
             padding: 0px;
@@ -64,8 +69,9 @@
         }
         /* Style the canvas for the graph */
         #chart-container {
-            max-height: 400px;
-
+            min-height: 350px;
+            padding: 8px;
+            background-color: darkslategray;
             width: 100%; /* Set canvas width to 100% to make it responsive */
         }
 
@@ -92,26 +98,29 @@
         #timer-display {
             position: absolute;
             color:orange;
-            bottom: 300px; /* Adjust the bottom position as needed */
-            left: 280px; /* Adjust the left position as needed */
+            bottom: 80%; /* Adjust the bottom position as needed */
+            left: 50%; /* Adjust the left position as needed */
             font-size: 24px;
         }
 
         /* Style the button container */
         #button-container {
             position: absolute;
-
+            background-color: orange;
             width: 20px;
             height:10px;
+
             top: 10px; /* Adjust the top position as needed */
-            right: 10px; /* Align to the right */
+             /* Align to the right */
         }
 
         /* Style the last value buttons */
         .last-value-button {
             margin-bottom: 5px;
-            padding: 1px;
-            background-color: orange;
+            background-color:orange;
+            padding: 20px;
+            align-self: top;
+           
         }
 
         /* Hide the hash value initially */

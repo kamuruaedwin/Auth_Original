@@ -15,11 +15,11 @@ class BetsController < ApplicationController
   end
 
   def create
-  @bet = current_user.bets.build(bet_params)
+  
 
   # Simulate the animation's progress (replace this with your actual animation logic)
-  animation_progress = simulate_animation_progress
-
+  
+  @bet = current_user.bets.build(bet_params)
   if @bet.save
     # Calculate the outcome based on animation progress and predicted value
     if animation_progress >= @bet.predicted_y_value

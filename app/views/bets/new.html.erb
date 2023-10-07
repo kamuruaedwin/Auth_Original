@@ -21,23 +21,15 @@
           <!-- hidden authenticity token -->
           <% form_authenticity_token %>
 
+              <div class="form-group">
+                <label for="stake_amount">Amount You Want To Bet</label>
+                <input type="number" class="form-control" name="bet[stake_amount]" id="stake_amount" placeholder="Enter stake amount">
+              </div>
 
-           <div class="form-group">
-              <label for="stake_amount">Amount You Want To Bet</label>
-              <input type="number" class="form-control" id="stake_amount" placeholder="Enter stake amount">
-            </div>
-            <!-- <div class="form-group">
-                <label for="stake">Stake Amount:</label>
-                <input type="number" class="form-control" name="bet[stake_amount]" id="stake" placeholder="Enter stake amount"> -->
-            <!-- </div> -->
-           <div class="form-group">
-            <label for="predicted_y_value">Your Predicted Odd</label>
-            <input type="number" class="form-control" id="predicted_y_value" placeholder="Enter your prediction"> 
-            </div>
-            <!-- <div class="form-group">
-            <label for="prediction">Predicted Value of y:</label>
-            <input type="number" class="form-control" name="bet[predicted_y_value]" id="prediction" placeholder="Enter your prediction"> -->
-          </div>
+              <div class="form-group">
+                <label for="predicted_y_value">Your Predicted Odd</label>
+                <input type="number" class="form-control" name="bet[predicted_y_value]" id="predicted_y_value" placeholder="Enter your prediction"> 
+              </div>
 <!-- linkinhg a bet to user -->
            
             
