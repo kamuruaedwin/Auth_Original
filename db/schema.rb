@@ -10,13 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_08_065750) do
+ActiveRecord::Schema[7.1].define(version: 2023_10_08_175452) do
+  create_table "animations", force: :cascade do |t|
+    t.float "last_y_value"
+    t.string "animation_hash"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "bets", force: :cascade do |t|
-    t.string "stake_amount"
-    t.string "predicted_y_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.integer "stake_amount"
+    t.float "predicted_y_value"
     t.index ["user_id"], name: "index_bets_on_user_id"
   end
 

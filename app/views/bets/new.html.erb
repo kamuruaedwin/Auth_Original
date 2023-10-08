@@ -9,25 +9,24 @@
           <%= form_with(model: @bet, url: bets_path, method: "post") do |form| %>
 
           <% if form.object.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(form.object.errors.count, "error") %> prohibited this bet from being saved:</h2>
-              <ul>
+            <!-- <div id="error_explanation"> -->
+              
                 <% form.object.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
                 <% end %>
-              </ul>
-            </div>
+              
+            
           <% end %>
           <!-- hidden authenticity token -->
           <% form_authenticity_token %>
 
               <div class="form-group">
-                <label for="stake_amount">Amount You Want To Bet</label>
+                <label for="stake_amount">Amount To Bet</label>
                 <input type="number" class="form-control" name="bet[stake_amount]" id="stake_amount" placeholder="Enter stake amount">
               </div>
 
               <div class="form-group">
-                <label for="predicted_y_value">Your Predicted Odd</label>
+                <label for="predicted_y_value">Your Prediction</label>
                 <input type="number" class="form-control" name="bet[predicted_y_value]" id="predicted_y_value" placeholder="Enter your prediction"> 
               </div>
 <!-- linkinhg a bet to user -->

@@ -16,6 +16,7 @@ resources :passwords
 
 delete 'logout' => 'sessions#destroy', as: :logout
 
+post '/data/receive_data', to: 'data#receive_data'
 
 # get 'bets/new'
 resources :bets, only: [:new, :create]

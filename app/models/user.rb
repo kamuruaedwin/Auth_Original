@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_secure_password
   has_many :bets, dependent: :destroy #destroys all bets on user deletion
   has_many :deposits
-  has_many :messages
+  has_many :messages, dependent: :destroy
   has_many :withdraws
 
   validates :phone_number, presence: true, uniqueness: true
