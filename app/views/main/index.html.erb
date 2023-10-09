@@ -14,10 +14,10 @@
       document.addEventListener("DOMContentLoaded", () => {
         const canvas = document.getElementById('chart-container');
         const context = canvas.getContext('2d');
-        const animationDuration = 30000; // Animation duration in milliseconds
+        const animationDuration = 15000; // Animation duration in milliseconds
         let animationStartTime;
         let animationIsRunning = true; // Initially, the animation is running
-        let randomStopTime = Math.random() * 17000; // Random stopping point (approximately 30 seconds)
+        let randomStopTime = Math.random() * 15000; // Random stopping point (approximately 30 seconds)
         let countdownInterval;
         let clearAnimationTimeout;
         const maxLastValues = 28; // Maximum number of last values to display
@@ -69,6 +69,7 @@
         const valueDisplay = document.getElementById('value-display');
         const timerDisplay = document.getElementById('timer-display');
         const buttonContainer = document.getElementById('button-container');
+        
         const hashDisplay = document.getElementById('hash-display');
         const hashValueDisplay = document.getElementById('hash-value');
         const tableBody = document.getElementById('table-body'); // Table body element
@@ -119,6 +120,7 @@
             const removedValue = lastYValues.shift();
             delete hashToValueMap[removedValue.hash];
           }
+          valueDisplay.textContent = `BURST! ${value.toFixed(2)}`
           // Add the mapping of hash to value
           hashToValueMap[hash] = value;
           displayLastValues();
@@ -133,7 +135,7 @@
             if (countdown === 0) {
               clearInterval(countdownInterval);
               // Restart the animation immediately after countdown reaches 0
-              randomStopTime = Math.random() * 23000; // Randomize the stopping point
+              randomStopTime = Math.random() * 15000; // Randomize the stopping point
               startAnimation(); // Restart the animation
               timerDisplay.textContent = '';
             }
@@ -159,12 +161,12 @@
           chart.update();
         }
 
-        function displayLastValues() {
+              function displayLastValues() {
           buttonContainer.innerHTML = ''; // Clear the existing buttons
           for (const [hash, value] of Object.entries(hashToValueMap)) {
             const button = document.createElement('button');
-            button.className = 'btn btn-secondary last-value-button';
-            button.textContent = `${value.toFixed(2)}`; // Display the value instead of "Show Hash"
+            button.className = 'last-value-button'; // Add the class here
+            button.textContent = `${value.toFixed(2)}`;
             button.addEventListener('click', () => {
               // Display the hash value when the button is clicked
               hashValueDisplay.textContent = hash;

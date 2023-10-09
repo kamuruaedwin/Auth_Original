@@ -40,7 +40,7 @@ class BetsController < ApplicationController
     @user = current_user
   end
 
-  
+
   def initialize_last_y_value
     @last_y_value = 1  # Initialize with the starting value (modify as needed)
   end

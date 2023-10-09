@@ -2,7 +2,7 @@
         .navbar {
 
             background-color: orange;
-            align-content: right;
+           
             display: flex;
         }
 
@@ -20,7 +20,7 @@
         /* Style the container */
         #container {
             
-            background-color: darkgrey;
+            background-color: darkgray;
             border: 1px solid #ccc;
             padding: 10px;
             align-content: left;
@@ -104,22 +104,15 @@
         }
 
         /* Style the button container */
-        #button-container {
-            position: absolute;
-            background-color: orange;
-            width: 20px;
-            height:10px;
-            right: 10px;
-            top: 10px; /* Adjust the top position as needed */
-             /* Align to the right */
-        }
+       
 
         /* Style the last value buttons */
+       /* Add this to your CSS file */
         .last-value-button {
-            margin-bottom: 5px;
-            background-color:orange;
-            padding: 20px;
-                       
+          background-color: orange;
+          padding: 0px;
+          height:23px;
+          color: darkslategray; /* Set the text color to white for better visibility */
         }
 
         /* Hide the hash value initially */
