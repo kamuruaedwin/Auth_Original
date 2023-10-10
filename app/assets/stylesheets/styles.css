@@ -78,7 +78,7 @@
         /* Style the line */
         #line {
             position: absolute;
-            width: 2px;
+            width: 1px;
             background-color: orange; /* Change line color to orange */
             top: 100%; /* Start the line from the bottom */
             left: 0; /* Start the line from the left */
@@ -88,8 +88,8 @@
         #value-display {
             position: absolute;
             color: orange;
-            bottom: 50%; /* Adjust the bottom position as needed */
-            left: 50%px; /* Adjust the left position as needed */
+            bottom: 62%; /* Adjust the bottom position as needed */
+            left: 62%px; /* Adjust the left position as needed */
             right: 50%;
             font-size: 18px;
         }

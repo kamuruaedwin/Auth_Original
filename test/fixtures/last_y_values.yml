@@ -2,8 +2,8 @@
 
 one:
   hashvalue: MyString
-  burst_value: 1.5
+  value: 1.5
 
 two:
   hashvalue: MyString
-  burst_value: 1.5
+  value: 1.5

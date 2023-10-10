@@ -30,6 +30,15 @@ resources :withdraws, only: [:new, :create]
 
 resources :messages, only: [:index, :create]
 
+# values from animation
+post '/last_y_values', to: 'last_y_values#create'
+
+
+get '/animations', to: 'animations#index'
+# config/routes.rb
+post '/animations/save_data', to: 'animations#save_data'
+
+
 root "main#index"
 
 end

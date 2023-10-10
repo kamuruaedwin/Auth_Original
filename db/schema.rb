@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_08_175452) do
-  create_table "animations", force: :cascade do |t|
-    t.float "last_y_value"
-    t.string "animation_hash"
+ActiveRecord::Schema[7.1].define(version: 2023_10_10_202242) do
+  create_table "animation_data", force: :cascade do |t|
+    t.string "hashvalue"
+    t.float "burst_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -24,6 +24,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_08_175452) do
     t.integer "user_id", null: false
     t.integer "stake_amount"
     t.float "predicted_y_value"
+    t.string "betid"
+    t.decimal "outcome"
     t.index ["user_id"], name: "index_bets_on_user_id"
   end
 
@@ -34,6 +36,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_08_175452) do
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_deposits_on_user_id"
+  end
+
+  create_table "last_y_values", force: :cascade do |t|
+    t.string "hashvalue"
+    t.float "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "messages", force: :cascade do |t|

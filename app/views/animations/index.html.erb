@@ -143,20 +143,6 @@
                   timerDisplay.textContent = '';
                 }
               }, 1000);
-              $.ajax({
-                      type: 'POST',
-                      url: '/bets/determine_outcome', // Update the route as needed
-                      data: {
-                        bet_id: @bet.id, // Pass the bet's ID to identify which bet to update
-                        burst_value: burst_value // Include any other required data
-                      },
-                      success: function(response) {
-                        // Handle the success response, if needed
-                      },
-                      error: function(error) {
-                        // Handle any errors, if needed
-                      }
-                    });
               // Clear the animation after 3 seconds
             clearAnimationTimeout = setTimeout(() => {
                       clearAnimation();
@@ -164,8 +150,19 @@
         }
               
 
-
-             
+              // Update the parameter name to hashvalue
+              $.ajax({
+                type: 'POST',
+                url: '/last_y_values', // Replace with the actual route
+                //send hashvalue and burst_value to server/db
+                data: { hashvalue: hashvalue, burst_value: burst_value }, // Update the parameter name
+                success: function(response) {
+                  // Handle the success response, if needed
+                },
+                error: function(error) {
+                  // Handle any errors, if needed
+                }
+              });
 
               
                     function resetTimer() {
@@ -211,15 +208,71 @@
             row.appendChild(hashvalueCell);
             tableBody.appendChild(row);
           }
-                      
+         
+            
+          
+            // Send an AJAX POST request to the server
+            fetch('/bets', {
+              method: 'POST',
+              body: formData,
+            })
+              .then(response => response.json())
+              .then(data => {
+                // Handle the response from the server (e.g., show a success message)
+                console.log(data); // You can replace this with your own handling logic
+              })
+              .catch(error => {
+                // Handle any errors that occur during the AJAX request
+                console.error('Error:', error);
+              });
+
+              $.ajax({
+                type: 'POST',
+                url: '/animations/save_data',
+                data: { hashvalue: hashvalue, burstvalue: burst_value },
+                success: function(response) {
+                    // Handle the success response, if needed
+                },
+                error: function(error) {
+                    // Handle any errors, if needed
+                }
+            });
+
+
+            // Clear the form inputs (optional)
+            document.getElementById('stake_amount').value = '';
+            document.getElementById('predicted_y_value').value = '';
+        
+          // Call the updateBetsTable function to update the table with the new bet data
+        updateBetsTable(betid, value, 'Outcome'); // Replace 'Outcome' with the actual outcome
+        
+
+      function updateBetsTable(betid, stake_amount, outcome) {
+                // Get a reference to the table and its tbody
+          const table = document.getElementById('bets-table');
+          const tbody = table.querySelector('tbody');
+
+          // Create a new row for the bet
+          const newRow = document.createElement('tr');
+          newRow.innerHTML = `
+            <td>${betid}</td>
+            <td>${stake_amount}</td>
+            <td>${outcome}</td>
+          `;
+
+          // Append the new row to the table's tbody
+          tbody.appendChild(newRow);
+        }
+
+
         function startAnimation() {
           animationStartTime = null;
           animationIsRunning = true;
           drawGraph();
         }
-        drawGraph()
+
         
-        
+        startAnimation();
 
  
     </script>

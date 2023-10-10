@@ -14,7 +14,7 @@
     
 
     
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Include Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Include Chart.js -->
@@ -22,10 +22,12 @@
     <!-- Include CryptoJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.3.0/crypto-js.js"></script>
     
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    
   </head>
 
-  <body>
-      
+  <body>      
     
   <% if flash[:notice].present? %>
     <div class="alert alert-success">
@@ -46,6 +48,13 @@
    
       <%= turbo_frame_tag "modal" %>
       <%= yield %>
+
+    <div id="container">
+      <footer>
+        <p> 
+        <a href="#">PesaFast BLCB no 88888 Copyright © 2023 All Rights Reserved</a></p>
+      </footer>
+    </div>
     </div>
 
 
@@ -65,6 +74,7 @@
     });
   });
 </script>
+
   </body>
-  
+ 
 </html>
